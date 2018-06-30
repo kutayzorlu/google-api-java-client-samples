@@ -152,3 +152,27 @@ Except as otherwise noted, the content of this page is licensed under the Creati
 
 Zuletzt aktualisiert: Juni 14, 2018
 
+
+# Drive API Client Library for Java
+ Drive API: Manages files in Drive including uploading, downloading, searching, detecting changes, and updating sharing permissions.
+
+This page contains information about getting started with the Drive API using the Google API Client Library for Java. In addition, you may be interested in the following documentation:
+
+Browse the JavaDoc reference for the Drive API.
+Read the Developer's Guide for the Google API Client Library for Java.
+Interact with this API in your browser using the APIs Explorer for the Drive API.
+Sample
+The drive-cmdline-sample may help you get started using the client library.
+
+Add Library to Your Project
+Select your build environment (Maven or Gradle) from the following tabs, or download a zip file containing all of the jars you need:
+
+DOWNLOADMAVENGRADLE
+ Download the Drive API v3 Client Library for Java.
+
+See the drive/readme.html file for details on:
+
+What the zip file contains.
+Which dependent jars are needed for each application type (web, installed, or Android application).
+The libs folder contains all the of the globally applicable dependencies you might need across all application types.
+
