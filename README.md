@@ -176,3 +176,51 @@ What the zip file contains.
 Which dependent jars are needed for each application type (web, installed, or Android application).
 The libs folder contains all the of the globally applicable dependencies you might need across all application types.
 
+# Uploading Files
+The Drive API allows you to upload file data when creating or updating a File resource.
+
+You can send upload requests in any of the following ways:
+
+Simple upload: uploadType=media. For quick transfer of a small file (5 MB or less). To perform a simple upload, refer to Performing a Simple Upload.
+Multipart upload: uploadType=multipart. For quick transfer of a small file (5 MB or less) and metadata describing the file, all in a single request. To perform a multipart upload, refer to Performing a Multipart Upload.
+Resumable upload: uploadType=resumable. For more reliable transfer, especially important with large files. Resumable uploads are a good choice for most applications, since they also work for small files at the cost of one additional HTTP request per upload. To perform a resumable upload, refer to Performing a Resumable Upload.
+Most Google API client libraries implement at least one of the methods. Refer to the client library documentation for additional details on how to use each of the methods.
+
+        File fileMetadata = new File();
+        fileMetadata.setName("photo.jpg");
+        java.io.File filePath = new java.io.File("files/photo.jpg");
+        FileContent mediaContent = new FileContent("image/jpeg", filePath);
+        File file = driveService.files().create(fileMetadata, mediaContent)
+            .setFields("id")
+            .execute();
+        System.out.println("File ID: " + file.getId());
+
+## Importing to Google Docs types
+    File fileMetadata = new File();
+    fileMetadata.setName("My Report");
+    fileMetadata.setMimeType("application/vnd.google-apps.spreadsheet");
+
+    java.io.File filePath = new java.io.File("files/report.csv");
+    FileContent mediaContent = new FileContent("text/csv", filePath);
+    File file = driveService.files().create(fileMetadata, mediaContent)
+        .setFields("id")
+        .execute();
+    System.out.println("File ID: " + file.getId());
+
+
+From	To
+Microsoft Word, OpenDocument Text, HTML, RTF, plain text	Google Docs
+Microsoft Excel, OpenDocument Spreadsheet, CSV, TSV, plain text	Google Sheets
+Microsoft Powerpoint, OpenDocument Presentation	Google Slides
+JPEG, PNG, GIF, BMP, PDF	Google Docs (embeds the image in a Doc)
+plain text (special MIME type), JSON	Google Apps Script
+When uploading and converting media during an update request to a Google Doc, Sheet, or Slide the full contents of the document will be replaced.
+
+When converting images you can improve the quality of the OCR algorithm by specifying the applicable BCP 47 language code in the ocrLanguage parameter. The extracted text will appear in the Google Docs document alongside the embedded image.
+
+Uploading using a pregenerated ID
+The Drive API allows you to retrieve a list of pregenerated file IDs that can be used for uploading and creating resources. Upload and file creation requests can then include these pregenerated IDs by setting the id fields in the file metadata.
+
+You can safely retry uploads with pregenerated IDs in the case of an indeterminate server error or timeout. If the file was successfully created, subsequent retries return a HTTP 409 error instead of creating duplicate files.
+
+
